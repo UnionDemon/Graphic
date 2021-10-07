@@ -16,11 +16,20 @@ int main()
 	// Загрузка текстуры и создание спрайта
 	Texture white;
 	Texture blue;
+	Texture green;
+	Texture whiteChecker;
+	Texture blackChecker;
 	white.loadFromFile("D:\\images\\White.png");
 	blue.loadFromFile("D:\\images\\Blue.png");
+	green.loadFromFile("D:\\images\\texturesGR.jpg");
+	whiteChecker.loadFromFile("D:\\images\\whiteCh.jpg");
+	blackChecker.loadFromFile("D:\\images\\blackCh.jpg");
 
 	Sprite whiteSprite(white);
 	Sprite blueSprite(blue);
+	Sprite greenSprite(green);
+	Sprite whiteCheckerSprite(whiteChecker);
+	Sprite blackCheckerSprite(blackChecker);
 
 	Font font;
 	font.loadFromFile("D:\\SFML_Tutorial\\Debug\\CyrilicOld.TTF");
@@ -105,26 +114,57 @@ int main()
 				}
 			}
 
-		//Отрисовка букв и цифр
-		int digitStartPosX = 40;
-		int digitPosY = 83;
-		for (int i = 1; i < 9; i += 1, digitPosY += 66)
+		//Отрисовка букв и цифр на поле
+		int digitStartPosLeftX = 40, digitStartPosRightX = 604;
+		for (int i = 1, digitPosY = 83; i < 9; i += 1, digitPosY += 66)
 		{
-			txt.setPosition(digitStartPosX, digitPosY);
+			txt.setPosition(digitStartPosLeftX, digitPosY);
+			txt.setString(std::to_string(i));
+			app.draw(txt);
+		}
+		for (int i = 1, digitPosY = 83; i < 9; i += 1, digitPosY += 66)
+		{
+			txt.setPosition(digitStartPosRightX, digitPosY);
 			txt.setString(std::to_string(i));
 			app.draw(txt);
 		}
 
-		int charPosX = 83;
-		int charStartPosY = 33;
+		int charPosX = 87, charStartPosTopY = 33, charStartPosBottomY = 594;
 		for (char c = 'a'; c < 'i'; c += 1, charPosX += 66)
 		{
-			txt.setPosition(charPosX, charStartPosY);
+			txt.setPosition(charPosX, charStartPosTopY);
 			txt.setString(c);
 			app.draw(txt);
 		}
-		
-		
+		charPosX = 87;//Необходимо вернуть X в начальное положение после прохода по циклу
+		for (char c = 'a'; c < 'i'; c += 1, charPosX += 66)
+		{
+			txt.setPosition(charPosX, charStartPosBottomY);
+			txt.setString(c);
+			app.draw(txt);
+		}
+
+		//Отрисовка зеленого квадрата (возможные ходы)
+		RectangleShape rectangle3(Vector2f(63.f, 63.f));
+		//Перемещаем его в ...
+		rectangle3.move(65, 65);
+		//Устанавливаем ему цвет
+		rectangle3.setFillColor(Color(0, 184, 0));
+		//Отрисовка прямоугольника
+		app.draw(rectangle3);
+
+		//ИЛИ ЧЕРЕЗ СПРАЙТЫ И ТЕКСТУРЫ!!!
+		// Устанавливаем его в заданную позицию...
+		greenSprite.setColor(sf::Color(0, 255, 0, 127));//нас интересует последний параметр - альфа-канал
+		greenSprite.setPosition(128.f, 128.f);
+		// ... и отрисовываем
+		app.draw(greenSprite);
+
+		//Шашки через спрайты и текстуры - плохая идея
+		//whiteCheckerSprite.setPosition(161.f, 161.f);
+		//app.draw(whiteCheckerSprite);
+		//blackCheckerSprite.setPosition(161.f, 161.f);
+		//app.draw(blackCheckerSprite);
 
 		// Отображаем всю композицию на экране
 		app.display();

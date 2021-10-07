@@ -1,11 +1,15 @@
 ﻿  main.cpp
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(96,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(96,38): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(102,50): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(102,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(113,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(113,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(122,30): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-D:\SFML_Tutorial\SFML_Tutorial\main.cpp(122,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(105,51): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(105,38): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(111,50): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(111,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(121,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(121,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(127,41): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(127,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(135,30): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(135,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(142,30): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\SFML_Tutorial\SFML_Tutorial\main.cpp(142,20): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
 D:\SFML_Tutorial\SFML_Tutorial\main.cpp(13,6): warning C4101: gridLogic: неиспользованная локальная переменная
   SFML_Tutorial.vcxproj -> D:\SFML_Tutorial\Debug\SFML_Tutorial.exe
