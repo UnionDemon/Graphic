@@ -147,13 +147,6 @@
   <ItemGroup>
     <ClCompile Include="ConsoleApplication1.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Debug\textures\Blue.png" />
-    <Image Include="..\Debug\textures\White.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\Debug\fonts\CyrilicOld.TTF" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

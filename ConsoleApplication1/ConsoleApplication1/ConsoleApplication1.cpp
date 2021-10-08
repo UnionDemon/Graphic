@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-#define WiNDOW_HIGHT 1024			// Высота окна
+#define WINDOW_HIGHT 1024			// Высота окна
 #define WINDOW_WIDTH 768			// Ширина окна
 #define FILD_SIZE 8					// размер игрового поля
 #define CELL_SIZE 66				// Размер ячейки привязан к размеру картинки (чуть больше для создания линий между ячейками)
@@ -13,52 +13,66 @@ using namespace sf;
 #define TEXT_TYPE Text::Bold		// Тип текста
 #define TEXT_COLOR Color::Black		// Цвет текста
 
-
 enum CellType						//Типы ячейки
 {
 	Blue = 0,
-	White = 1
+	White = 1,
+	Green = 2
 };
 
-
+enum CheckerType					//Типы шашки
+{
+	BlackChecker = 0,
+	WhiteChecker = 1,
+	KilledChecker = 2
+};
 
 int main()
 {
-	//Окно
-	RenderWindow app(VideoMode(WiNDOW_HIGHT, WINDOW_WIDTH), "SFML Сheckers!", Style::Close | sf::Style::Titlebar);
+			//Окно
+	RenderWindow app(VideoMode(WINDOW_HIGHT, WINDOW_WIDTH), "SFML Checkers!", Style::Close | sf::Style::Titlebar);
 	
-	//Поля
-	int gridLogic[FILD_SIZE][FILD_SIZE]; // Логическое поле
-	int gridView[FILD_SIZE][FILD_SIZE]; // Графическое поле 
+			//Поля
+			// Логическое поле
+	int gridLogic[FILD_SIZE][FILD_SIZE];
+			// Графическое поле 
+	int gridView[FILD_SIZE][FILD_SIZE];
 	
-	// Загрузка текстур и создание спрайта для клеток
+			// Загрузка текстур и создание спрайта для клеток
 	Texture white;
 	Texture blue;
+	Texture green;
+	Texture blackСhecker;
+	Texture whiteСhecker;
+
 	white.loadFromFile("..\\Debug\\textures\\White.png");
 	blue.loadFromFile("..\\Debug\\textures\\Blue.png");
+	green.loadFromFile("..\\Debug\\textures\\Green.JPG");
+	blackСhecker.loadFromFile("..\\Debug\\textures\\blackCh.png");
+	whiteСhecker.loadFromFile("..\\Debug\\textures\\whiteCh.png");
 	
 	Sprite whiteSprite(white);
 	Sprite blueSprite(blue);
-	//
+	Sprite greenSprite(green);
+	Sprite blackСheckerSprite(blackСhecker);
+	Sprite whiteСheckerSprite(whiteСhecker);
+			//
 
-	//Создание текста
+			//Создание текста
 	Font font;
 	font.loadFromFile("..\\Debug\\fonts\\CyrilicOld.TTF");
 
 	Text txt;
 	txt.setFont(font);
-	txt.setPosition(50, 50); // надо убрать
-	txt.setString("TESSSSSTT");
 	txt.setCharacterSize(FONT_SIZE);
 	txt.setFillColor(TEXT_COLOR);
 	txt.setStyle(TEXT_TYPE);
-	//
+			//
 
-	//Заполнить графическое поле значениями
+			//Заполнить графическое поле значениями
 	for (int i = 0; i < FILD_SIZE; i++)
 		for (int j = 0; j < FILD_SIZE; j++)
 		{
-			
 			if (i % 2 == 0)
 			{
 				gridView[i][j] = (j % 2 == 0) ? White : Blue;
@@ -68,7 +82,23 @@ int main()
 				gridView[i][j] = (j % 2 == 0) ? Blue : White;
 			}
 		}
-	//
+	gridView[1][1] = Green;
+			//
+
+			//Заполнить логическое поле значениями
+	for (int i = 0; i < FILD_SIZE; i++)
+		for (int j = 0; j < FILD_SIZE; j++)
+		{
+			if (i % 2 == 0)
+			{
+				gridLogic[i][j] = (j % 2 == 0) ? WhiteChecker : BlackChecker;
+			}
+			else
+			{
+				gridLogic[i][j] = (j % 2 == 0) ? BlackChecker : WhiteChecker;
+			}
+		}
+			//
 
 	while (app.isOpen())
 	{
@@ -79,9 +109,10 @@ int main()
 			if (e.type == Event::Closed)
 				app.close();
 		}
+			// заливка экрана в чёрный
+		app.clear(Color::Black);
 
-		app.clear(Color::Black); // заливка экрана в чёрный
-			
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 			//Создаем белый прямоугольник (главная подложка доски) 
 		RectangleShape rectangleBoardWhite(Vector2f((FILD_SIZE + 1)* CELL_SIZE, (FILD_SIZE + 1)* CELL_SIZE));
 			//Перемещаем его в нижний ряд справа от многоугольника
@@ -90,7 +121,6 @@ int main()
 		rectangleBoardWhite.setFillColor(WHITE);
 			//Отрисовка прямоугольника
 		app.draw(rectangleBoardWhite);
-
 
 			//Создаем чёрный прямоугольник (заполнение промежутков между ячейками)
 		RectangleShape rectangleBoardBlack(Vector2f(FILD_SIZE * CELL_SIZE + 2, FILD_SIZE * CELL_SIZE + 2));
@@ -101,90 +131,83 @@ int main()
 			//Отрисовка прямоугольника
 		app.draw(rectangleBoardBlack);
 		
+			//Отрисовка букв и цифр на поле
+			//координаты для букв
+		int digitStartPosLeftX = CELL_SIZE - CELL_SIZE / 3;
+		int digitStartPosRightX = (CELL_SIZE * 9) + CELL_SIZE / 6;
+			//координаты для букв
+		int charPosX = CELL_SIZE + CELL_SIZE / 3;
+		int	charStartPosTopY = CELL_SIZE / 2;
+		int	charStartPosBottomY = (CELL_SIZE * 9) ;
 
-		//рисование определённых квадратов на поле
+		for (int i = 1, digitPosY = (CELL_SIZE + (CELL_SIZE / 4)); i < 9; i += 1, digitPosY += CELL_SIZE)
+		{
+				//
+			txt.setPosition(digitStartPosLeftX, digitPosY);
+			txt.setString(std::to_string(i));
+			app.draw(txt);
+				//
+			txt.setPosition(digitStartPosRightX, digitPosY);
+			txt.setString(std::to_string(i));
+			app.draw(txt);
+		}
+
+		for (char ch = 'a'; ch < 'i'; ch += 1, charPosX += CELL_SIZE)
+		{
+				//
+			txt.setPosition(charPosX, charStartPosTopY);
+			txt.setString(ch);
+			app.draw(txt);
+				//
+			txt.setPosition(charPosX, charStartPosBottomY);
+			txt.setString(ch);
+			app.draw(txt);
+		}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+
+			//рисование определённых квадратов на поле
 		for (int i = 0; i < FILD_SIZE; i++)
 			for (int j = 0; j < FILD_SIZE; j++)
 			{
-				
-				if (gridView[i][j] == 1)
+				if (gridView[i][j] == White)
 				{
-					// Устанавливаем его в заданную позицию...
+						// Устанавливаем его в заданную позицию...
 					whiteSprite.setPosition((i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);
-					//	Отрисовывание
+						//	Отрисовывание
 					app.draw(whiteSprite);
+				} else if (gridView[i][j] == Green) {
+						// Устанавливаем его в заданную позицию
+					greenSprite.setPosition((i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);
+						// Отрисовывание
+					app.draw(greenSprite);
 				}else {
-					// Устанавливаем его в заданную позицию
+						// Устанавливаем его в заданную позицию
 					blueSprite.setPosition((i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);
-					// Отрисовывание
+						// Отрисовывание
 					app.draw(blueSprite);
 				}
 			}
-		// Отображаем всю композицию на экране
-		app.draw(txt);
-		app.display();
 
+			//рисование шашек на поле
+		for (int i = 0; i < FILD_SIZE; i++)
+			for (int j = 0; j < FILD_SIZE; j++)
+			{
+				if (gridLogic[i][j] == WhiteChecker)
+				{
+						// Устанавливаем его в заданную позицию...
+					whiteСheckerSprite.setPosition((i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);
+						//	Отрисовывание
+					app.draw(whiteСheckerSprite);
+				}else {
+						// Устанавливаем его в заданную позицию
+					blackСheckerSprite.setPosition((i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);
+						// Отрисовывание
+					app.draw(blackСheckerSprite);
+				}
+			}
+		
+			// Отображаем всю композицию на экране
+		app.display();
 	}
 	return 0;
 }
-
-
-//#include <SFML/Graphics.hpp>
-//
-//using namespace sf;
-//
-//int main()
-//{
-//	// Объект, который, собственно, является главным окном приложения
-//	RenderWindow window(VideoMode(1024, 768), "SFML Checkers", Style::Close | sf::Style::Titlebar);
-//
-//	
-//	// Главный цикл приложения. Выполняется, пока открыто окно
-//	while (window.isOpen())
-//	{
-//		window.clear(Color(250, 220, 100, 0));
-//		
-//		// Обрабатываем очередь событий в цикле
-//		Event event;
-//		while (window.pollEvent(event))
-//		{
-//			// Пользователь нажал на «крестик» и хочет закрыть окно?
-//			if (event.type == Event::Closed)
-//				// тогда закрываем его
-//				window.close();
-//		}
-//		// Создаем переменную текстуры
-//		Texture texture;
-//
-//		// Подгружаем нашу текстуру из файла texture.png
-//		texture.loadFromFile("D:\\TEST\\ConsoleApplication1\\Debug\\test.jpg");
-//		
-//		// Создаем спрайт для примера
-//		Sprite sprite(texture);
-//		
-//		// Позиция
-//		sprite.setPosition(10, 10); // сначала сдвинем наш спрайт в сторону
-//		sprite.scale(0.4, 0.4); // смещение параметров масштабирования относительно текущих значений (1600X1598)
-//		
-//		sprite.setTextureRect(IntRect(0, 0, 18, 18));
-//		
-//		window.draw(sprite);
-//		
-//		// Создаем прямоугольник размером 70х100
-//		//RectangleShape rectangle(Vector2f(70.f, 70.f));
-//
-//		// Перемещаем его в нижний ряд справа от многоугольника
-//		//rectangle.move(42.2, 42.5);
-//
-//		// Устанавливаем ему цвет
-//		//rectangle.setFillColor(Color(0, 0, 0, 128));
-//
-//		// Отрисовка прямоугольника
-//		//window.draw(rectangle);
-//
-//		// Отрисовка окна	
-//		window.display();
-//	}
-//
-//	return 0;
-//}

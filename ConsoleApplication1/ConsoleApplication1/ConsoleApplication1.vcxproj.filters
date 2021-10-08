@@ -19,17 +19,4 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Debug\textures\Blue.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="..\Debug\textures\White.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\Debug\fonts\CyrilicOld.TTF">
-      <Filter>Файлы ресурсов</Filter>
-    </Font>
-  </ItemGroup>
 </Project>
