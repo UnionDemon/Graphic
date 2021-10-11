@@ -1,0 +1,21 @@
+0:4:888:	White checkers was added
+	Checkers total: 16
+0:4:888:	Black checkers was added
+	Checkers total: 32
+0:4:888:	Initialized game info
+0:4:889:	Game created
+0:4:889:	Called checker getter
+0:4:889:	Position: x=1; y=1
+0:4:889:	Checker was found. Team: White
+0:4:889:	Called checker getter
+0:4:890:	Position: x=7; y=3
+0:4:890:	Checker was found. Team: Black
+0:4:890:	Called checker getter
+0:4:890:	Position: x=5; y=5
+0:4:891:	Checker not found
+0:4:891:	White checkers was added
+	Checkers total: 16
+0:4:891:	Black checkers was added
+	Checkers total: 32
+0:4:891:	Initialized game info
+0:4:891:	Game created
